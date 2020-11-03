@@ -1,0 +1,25 @@
+{% extends 'manage/base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block products %}
+    <div class="alert alert-light">
+    <h1>Add revenue
+    </h1>
+    </div>
+    <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'manage:list_revenue' %}">All revenue</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% if object %}Update{% else %}Add{% endif %} revenue</li>
+  </ol>
+</nav>
+    {% load crispy_forms_tags %}
+    <form method="post" class="form-group mx-auto w-100" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+    <input type="submit" value="{% if object %}Update{% else %}Create{% endif %}" class="btn btn-outline-success">
+    {% if object %}<a href="{% url 'manage:delete_revenue' object.id %}" class="btn btn-outline-danger">Delete</a>{% endif %}
+    </form>
+{% endblock %}
+{% block side %}
+{% endblock %}

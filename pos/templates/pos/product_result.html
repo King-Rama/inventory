@@ -1,0 +1,44 @@
+{% load static %}
+{% if products %}
+    <h2 class="text-center alert alert-success">Search result</h2>
+    <div class="row mx-auto">
+    {% for result in products %}
+
+        <div class="col-lg-4 card mt-2" style="width: 24rem;">
+        <h5 class="card-header">{{ result.name }}<span class="float-right badge badge-info text-white">@ {{ result.price }} Tsh</span></h5>
+  {% if result.image %}
+      <img src="{{ result.image.url }}" class="card-img" alt="{{ result.name }} image" width="200" height="200">
+      {% else %}
+      <img src="{% static 'img/no_image.png' %}" class="card-img" alt="{{ result.name }} image" width="200" height="200">
+        {% endif %}
+        <p class="badeg badge-warning text-center">Product left: {{ result.quantity }}</p>
+  <div class="card-body">
+      <hr>
+      <a class="card-link btn btn-sm btn-secondary" href="{% url 'pos:product_detail' result.id result.slug %}">Add</a>
+  </div>
+</div>
+{#        <script type="text/javascript">#}
+{#        window.CSRF_TOKEN = ''#}
+{#        function add_to_cart() {#}
+{#            const id = {{ result.id }};#}
+{#            const quant = $('#quantity');#}
+{#            const csrftoken = window.CSRF_TOKEN;#}
+{##}
+{#            $.ajax({#}
+{#                url: '{% url 'cart:cart_add' id quant %}',#}
+{#                type: 'POST',#}
+{#                beforeSend: function () {#}
+{##}
+{#                }#}
+{#            })#}
+{##}
+{#        }#}
+{#        </script>#}
+
+
+        {% endfor %}
+{% else %}
+    <div class="alert alert-danger text-center" role="alert">No product found!</div>
+</div>
+
+{% endif %}

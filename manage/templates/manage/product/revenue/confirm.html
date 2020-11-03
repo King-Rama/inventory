@@ -1,0 +1,24 @@
+{% extends 'manage/base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block products %}
+    <div class="alert alert-light">
+    <h1>Confirm deleting {{ object.category }} {{ object.particulars }}
+    </h1>
+    </div>
+    <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'manage:list_expenses' %}">All expenses</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{% if object %}Update{% else %}Add{% endif %} expenses</li>
+  </ol>
+</nav>
+    {% load crispy_forms_tags %}
+    <form method="post" class="form-group mx-auto w-100" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>Are you sure you want to delete the assignment: "{{ object.category }}"?</p>
+    <input type="submit" value="Confirm delete" class="btn btn-outline-danger">
+    </form>
+{% endblock %}
+{% block side %}
+{% endblock %}

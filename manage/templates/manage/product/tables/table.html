@@ -1,0 +1,63 @@
+{% extends 'manage/base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block products %}
+
+    <div class="container-fluid">
+    <div class="alert alert-light h2"></div>
+        <div class="table-responsive">
+            <table class="table" id="data_ta">
+                <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+
+  </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% block js %}
+  <script>
+$(document).ready(function() {
+
+$('#data_ta').DataTable({
+
+"aLengthMenu": [
+[25, 50, 100, 500, ], // -1],
+        [25, 50, 100, 500, ] //"All"]
+],
+    "paging": true,
+    "responsive": true,
+    "processing": true,
+    "serverSide": true,
+    "ajax": "{% url 'manage:manager_report' %}",
+// POST METHOD EXAMPLE HERE
+    //~ "ajax": {
+                 //~ url: "",
+                 //~ method: 'post',
+                 //~ data: function(args) {
+                   //~ return {
+                     //~ "args": JSON.stringify(args)
+                   //~ };
+                 //~ }
+               //~ },
+       });
+
+   });
+   </script>
+    {% endblock %}
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'manage/base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block products %}
+    <div class="alert alert-light">
+    <h2>{% if object %}Edit {{ object.name }}{% else %}New Product{% endif %}
+    </h2>
+    </div>
+    <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'manage:product_list' %}">List product</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'manage:category_list' %}">List category</a></li>
+       <li class="breadcrumb-item"><a href="{% url 'manage:category_create' %}">Add category</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Add product</li>
+  </ol>
+</nav>
+    {% load crispy_forms_tags %}
+    <form method="post" class="form-group mx-auto w-100" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+    <input type="submit" value="{% if object %}Update {{ object.name }}{% else %}Create{% endif %}" class="btn btn-outline-success">
+    </form>
+{% endblock %}
+{% block side %}
+    {% if object.image %}
+        <div class="alert alert-light text-dark h3">{{ object.name|capfirst }}</div>
+        <img src="{{ object.image.url }}" width="200" height="200">
+    {% else %}
+    {% endif %}
+{% endblock %}

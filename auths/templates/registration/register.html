@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+    {% load crispy_forms_tags %}
+    <form method="post" class="form-group w-50 mx-auto" action="{% url 'client-register' %}">
+        <h2 class="text-center">Register now</h2>
+        {% csrf_token %}
+        {{ form|crispy }}
+
+        <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Agree with our terms and conditions.</label>
+        </div>
+        <input type="submit" value="create account" class="btn btn-success">
+        <hr><br>
+        <span class="float-right"><a class="mx-auto btn btn-outline-success rounded-pill text-secondary shadow" href="{% url 'login' %}">Already registered, Login now!</a></span>
+    </form>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'manage/base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block products %}
+    <div class="alert alert-light">
+    <h2>Add expenses
+    </h2>
+    </div>
+    <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'manage:list_expenses' %}">All expenses</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Upload expenses</li>
+  </ol>
+</nav>
+    {% load crispy_forms_tags %}
+    <form method="post" class="form-group mx-auto w-100" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+    <input type="submit" value="{% if object %}Update {{ object.name }}{% else %}Submit{% endif %}" class="btn btn-outline-success">
+    </form>
+<hr class="mt-5">
+    <div class="h5">Expenses file sample</div>
+            <table class="table text-center" id="shop_table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Category</th>
+      <th scope="col">Particulars</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Date</th>
+      {% if not user.is_pos %}<th></th>{% endif %}
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Wages</td>
+      <td>{{ 'paying wages for'|truncatewords_html:2 }}</td>
+      <td>12343000</td>
+      <td>Jan. 1, 2020</td>
+      {% if not user.is_pos %}<td><span></span><span></span></td>{% endif %}
+    </tr>
+  </tbody>
+</table>
+
+{% endblock %}
+{% block side %}
+    {% if object.image %}
+        <div class="alert alert-light text-dark h3">{{ object.name|capfirst }}</div>
+        <img src="{{ object.image.url }}" width="200" height="200">
+    {% else %}
+    {% endif %}
+{% endblock %}
+
+{% block ext %}
+    {% block extra_css %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+
+
+    <link rel="https://cdn.datatables.net/buttons/1.6.2/css/buttons.bootstrap4.min.css">
+
+
+    <link rel="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <link rel="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
+
+{% endblock %}
+{% endblock %}
+
+{% block js %}
+     <script>
+        $(document).ready(function() {
+    $('#shop_table').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'excel'
+        ]
+    } );
+} );
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.bootstrap4.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.colVis.min.js"></script>
+
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    {% load crispy_forms_tags %}
+    <form class="form-group w-50 mx-auto" method="post" action="{% url 'login' %}">
+        <h2 class="text-center">Login now</h2>
+        {{ form|crispy }}
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}" />
+        <input type="submit" class="btn btn-primary w-25" value="Log in">
+    <hr>
+    <a class="mx-auto" href="">Forgot password?</a>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'manage/base.html' %}
+{% load static %}
+{% block title %}{% endblock %}
+
+{% block products %}
+    {% if object_list %}
+    <h2 class="text-center alert alert-success">All categories</h2>
+         <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'manage:create_product' %}">Add product</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'manage:category_create' %}">Add category</a></li>
+    <li class="breadcrumb-item active" aria-current="page">All categories</li>
+  </ol>
+</nav>
+    <div class="row mx-auto">
+    {% for result in object_list %}
+
+            <ul class="list-group">
+  <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+    {{ result.name }}
+    <span class="badge badge-light badge-pill ml-5"><a class="" href="{% url 'manage:category_update' result.id %}">update</a></span>
+  </li>
+
+</ul>
+
+        {% endfor %}
+{% else %}
+    <div class="alert alert-danger text-center" role="alert">No yet added, create one <a class="" href="{% url 'manage:create_product' %}"></a></div>
+</div>
+
+{% endif %}
+{% endblock %}

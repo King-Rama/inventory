@@ -1,0 +1,36 @@
+{% extends 'pos/products.html' %}
+{% load static %}
+
+{% block detail %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3 mr-4">
+                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no_image.png' %}{% endif %}" height="250" width="250">
+            </div>
+        <div class="col-lg-7 ml-4">
+            <h3>{{ product.name }} for only <span class="float-right badge badge-info text-white">{{ product.price }} Tsh</span></h3>
+            <hr>
+            <p class="badge badge-warning text-center">Product left: {{ product.quantity }}</p>
+            <hr>
+            <p class="">{{ product.description }}</p>
+            {% load crispy_forms_tags %}
+            <form action="{% url "cart:cart_add" product.id %}" method="post">
+      <label class="sr-only" for="inlineFormInputGroupUsername2">Username</label>
+  <div class="input-group mb-2 mr-sm-2">
+    <div class="input-group-prepend">
+      <div class="input-group-text">max {{ product.quantity }} product</div>
+    </div>
+    {{ cart_product_form.quantity }}
+      <div class="input-group-append">
+       <button class="btn btn-success" type="submit">Add to cart</button>
+    </div>
+  </div>
+      {% csrf_token %}
+
+    </form>
+        </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Welcome{% endblock %}
+{% block content %}
+{% load static %}
+
+    <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">Choose your account!</h1>
+        <hr>
+        <div class="row mx-auto">
+            <span class="">
+                <a href="{% url 'pos:home' %}" role="button" class="btn btn-lg btn-outline-primary shadow">Sales »</a>
+            </span>
+            <span class="ml-4">
+                <a href="{% url 'manage:manager_home_page' %}" role="button" class="btn btn-lg btn-outline-success shadow">Manager »</a>
+            </span>
+            <span class="ml-4">
+                <a href="/admin/" role="button" class="btn btn-lg btn-outline-secondary shadow">Admin »</a>
+            </span>
+        </div>
+    </div>
+  </div>
+    <div class="container bg-white rounded">
+    <!-- Example row of columns -->
+    <div class="row">
+      <div class="col-md-4 shadow">
+        <h2>Revenue vs Time</h2>
+        <canvas id="myChart1" width="500" height="400"></canvas>
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+        <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
+        <script type="text/javascript">
+            $.get('{% url "pos:line_chart_json" %}', function(data) {
+                var ctx = $("#myChart1").get(0).getContext("2d");
+                new Chart(ctx, {
+                    type: 'bar', data: data
+                });
+            });
+        </script>
+      </div>
+      <div class="col-md-4 shadow">
+        <h2>Expenses vs Time</h2>
+        <canvas id="myChart2" width="500" height="400"></canvas>
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+        <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
+        <script type="text/javascript">
+            $.get('{% url "pos:line_chart_json" %}', function(data) {
+                var ctx = $("#myChart2").get(0).getContext("2d");
+                new Chart(ctx, {
+                    type: 'bar', data: data
+                });
+            });
+        </script>
+      </div>
+      <div class="col-md-4 shadow">
+        <h2>Profit vs Time</h2>
+        <canvas id="myChart3" width="500" height="400"></canvas>
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+        <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
+        <script type="text/javascript">
+            $.get('{% url "pos:line_chart_json" %}', function(data) {
+                var ctx = $("#myChart3").get(0).getContext("2d");
+                new Chart(ctx, {
+                    type: 'bar', data: data
+                });
+            });
+        </script>
+      </div>
+    </div>
+
+    <hr>
+
+  </div>
+
+{% endblock %}

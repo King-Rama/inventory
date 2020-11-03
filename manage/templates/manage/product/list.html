@@ -1,0 +1,38 @@
+{% extends 'manage/base.html' %}
+{% load static %}
+{% block title %}{% endblock %}
+
+{% block products %}
+    <h2 class="text-center alert alert-success">All products</h2>
+         <nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'manage:create_product' %}">Add product</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'manage:category_create' %}">Add category</a></li>
+    <li class="breadcrumb-item active" aria-current="page">All products</li>
+  </ol>
+</nav>
+    {% if object_list %}
+    <div class="row mx-auto">
+    {% for result in object_list %}
+
+        <div class="col-3 card mt-2" style="width: 18rem;">
+        <h5 class="card-header">{{ result.name }}<span class="float-right badge badge-info text-white">{{ result.price }} Tsh</span></h5>
+  {% if result.image %}
+      <img src="{{ result.image.url }}" class="card-img img-thumbnail" alt="{{ result.name }} image" width="100" height="100">
+      {% else %}
+      <img src="{% static 'img/no_image.png' %}" class="card-img img-thumbnail" alt="{{ result.name }} image" width="100" height="100">
+        {% endif %}
+        <p class="badge badge-warning text-center">Product left: {{ result.quantity }}</p>
+  <div class="card-body">
+{#    <p class="card-text">{{ result.description }}</p>#}
+      <hr>
+    <a href="{% url 'manage:product_edit' result.id %}" class="btn btn-outline-secondary btn-block">Update product</a>
+  </div>
+</div>
+        {% endfor %}
+{% else %}
+    <div class="alert alert-danger text-center" role="alert">No yet added, create one <a class="" href="{% url 'manage:create_product' %}"></a></div>
+</div>
+
+{% endif %}
+{% endblock %}

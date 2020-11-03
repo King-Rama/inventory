@@ -1,0 +1,53 @@
+{% extends "pos/base.html" %}
+{% load i18n %}
+
+{% block title %}
+  {% trans "Checkout" %}
+{% endblock %}
+
+{% block products %}
+    <div class="container">
+        <h1 class="alert alert-light text-center">{% trans "Checkout" %}</h1>
+
+  <div class="container alert alert-heading">
+    <h3 class="ml-5">{% trans "Your order" %}</h3>
+    <table class="table">
+  <thead>
+    <tr class="bg-secondary">
+      <th scope="col">Product</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+    </tr>
+  </thead>
+    <tbody>
+      {% for item in cart %}
+    <tr>
+      <th scope="row">{{ item.product.name }}</th>
+      <td>{{ item.quantity }}</td>
+      <td>TSH. {{ item.total_price|floatformat:2 }}</td>
+    </tr>
+      {% endfor %}
+    </tbody>
+</table>
+  {% if cart.coupon %}
+        <li>
+          {% blocktrans with code=cart.coupon.code discount=cart.coupon.discount %}
+            "{{ code }}" ({{ discount }}% off)
+          {% endblocktrans %}
+          <span class="neg">- Tsh {{ cart.get_discount|floatformat:2 }}</span>
+        </li>
+      {% endif %}
+    </ul>
+  <div class="bg-warning">
+      <span class="p-2 pt-3 pb-3">{% trans "Total" %}: Tsh {{ cart.get_total_price_after_discount|floatformat:2 }}</span>
+  </div>
+  </div>
+{% load crispy_forms_tags %}
+  <form method="post" class="container" enctype="multipart/form-data">
+    {{ form|crispy }}
+    <p><input type="submit" value="{% trans "Place order" %}" class="btn btn-success"></p>
+    {% csrf_token %}
+  </form>
+  </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'manage/base.html' %}
+{% load humanize %}
+{% block products %}
+{% load static %}
+    <div class="alert alert-light h2">Sales Information</div>
+    <div class="row m-4">
+        <div class="col-3">
+            <div class="card text-center p-2 bg-success text-white">
+                 {{ gross_money|intcomma }} Tsh
+                <br>
+                <h4 class="text-muted">Revenues</h4>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card text-center p-2 alert alert-danger">
+                {{ expenses|intcomma }} Tsh
+                <br>
+                <h4 class="text-muted">Running Costs</h4>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="card text-center p-2 bg-warning">
+                {{ net_profit|intcomma }} Tsh
+                <br>
+                <h4 class="text-muted">{{ profit }} generated</h4>
+            </div>
+        </div>
+    <div class="col-3">
+            <div class="card text-center p-2 alert alert-info">
+                {{ sales|intcomma }} Tsh
+                <br>
+                <h4 class="text-muted">Sales revenue</h4>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-12 shadow text-center mx-auto">
+        <h2>Revenue vs Time</h2>
+        <canvas id="myChart1" width="500" height="400"></canvas>
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+        <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
+        <script type="text/javascript">
+            $.get('{% url "pos:line_chart_json" %}', function(data) {
+                var ctx = $("#myChart1").get(0).getContext("2d");
+                new Chart(ctx, {
+                    type: 'line', data: data
+                });
+            });
+        </script>
+      </div>
+    </div>
+{% endblock %}
