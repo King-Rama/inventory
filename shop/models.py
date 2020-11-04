@@ -35,7 +35,6 @@ class Product(models.Model):
     available = models.BooleanField(default=True, help_text='Checked means the stock is ready for sales')  # set True to allow goods to be visible in product for sales
     created = models.DateTimeField(auto_now_add=True)  # stock created
     quantity = models.PositiveSmallIntegerField(default=1, null=True, blank=True)
-    expiry_date = models.DurationField(blank=True, null=True)
     serial_number = models.CharField(max_length=200, blank=True, null=True)
     vendor = models.CharField(max_length=200, blank=True)
     vendor_phone = models.CharField(max_length=20, blank=True)
