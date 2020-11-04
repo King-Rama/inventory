@@ -64,6 +64,14 @@ class ManagerHome(generic.TemplateView):
         expenses = Expenses.objects.all().aggregate(Sum('amount'))
         gross_revenue = OrderItem.objects.all()
         gross_expenses = Salary.objects.all().aggregate(Sum('income'))
+        if gross_expenses['income__sum'] is None:
+            gross_expenses['income__sum'] = 0
+        if gross_revenue is None:
+            gross_revenue = 0
+        if revenue['amount__sum'] is None:
+            revenue['amount__sum'] = 0
+        if expenses['amount__sum'] is None:
+            expenses['amount__sum'] = 0
         money = 0
         for expense in gross_revenue:
             money = money + (expense.price * expense.quantity)
