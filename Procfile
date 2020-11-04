@@ -1,1 +1,1 @@
-web: gunicorn rsm.wsgi --log-file -
+web: gunicorn inventory.wsgi --log-file -
