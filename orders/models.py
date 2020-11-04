@@ -9,7 +9,7 @@ class Order(models.Model):
     sold_by = models.ForeignKey(User, on_delete=models.DO_NOTHING, null=True, blank=True)
     first_name = models.CharField(_('first name'), max_length=50)
     last_name = models.CharField(_('last name'), max_length=50)
-    mobile = models.PositiveIntegerField(max_length=10, blank=True, null=True)
+    mobile = models.PositiveIntegerField(blank=True, null=True)
     address = models.CharField(_('address'), max_length=250)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
