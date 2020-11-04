@@ -22,53 +22,53 @@
   </div>
     <div class="container bg-white rounded">
     <!-- Example row of columns -->
-    <div class="row">
-      <div class="col-md-4 shadow">
-        <h2>Revenue vs Time</h2>
-        <canvas id="myChart1" width="500" height="400"></canvas>
-
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
-        <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
-        <script type="text/javascript">
-            $.get('{% url "pos:line_chart_json" %}', function(data) {
-                var ctx = $("#myChart1").get(0).getContext("2d");
-                new Chart(ctx, {
-                    type: 'bar', data: data
-                });
-            });
-        </script>
-      </div>
-      <div class="col-md-4 shadow">
-        <h2>Expenses vs Time</h2>
-        <canvas id="myChart2" width="500" height="400"></canvas>
-
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
-        <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
-        <script type="text/javascript">
-            $.get('{% url "pos:line_chart_json" %}', function(data) {
-                var ctx = $("#myChart2").get(0).getContext("2d");
-                new Chart(ctx, {
-                    type: 'bar', data: data
-                });
-            });
-        </script>
-      </div>
-      <div class="col-md-4 shadow">
-        <h2>Profit vs Time</h2>
-        <canvas id="myChart3" width="500" height="400"></canvas>
-
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
-        <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>
-        <script type="text/javascript">
-            $.get('{% url "pos:line_chart_json" %}', function(data) {
-                var ctx = $("#myChart3").get(0).getContext("2d");
-                new Chart(ctx, {
-                    type: 'bar', data: data
-                });
-            });
-        </script>
-      </div>
-    </div>
+{#    <div class="row">#}
+{#      <div class="col-md-4 shadow">#}
+{#        <h2>Revenue vs Time</h2>#}
+{#        <canvas id="myChart1" width="500" height="400"></canvas>#}
+{##}
+{#        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>#}
+{#        <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>#}
+{#        <script type="text/javascript">#}
+{#            $.get('{% url "pos:line_chart_json" %}', function(data) {#}
+{#                var ctx = $("#myChart1").get(0).getContext("2d");#}
+{#                new Chart(ctx, {#}
+{#                    type: 'bar', data: data#}
+{#                });#}
+{#            });#}
+{#        </script>#}
+{#      </div>#}
+{#      <div class="col-md-4 shadow">#}
+{#        <h2>Expenses vs Time</h2>#}
+{#        <canvas id="myChart2" width="500" height="400"></canvas>#}
+{##}
+{#        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>#}
+{#        <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>#}
+{#        <script type="text/javascript">#}
+{#            $.get('{% url "pos:line_chart_json" %}', function(data) {#}
+{#                var ctx = $("#myChart2").get(0).getContext("2d");#}
+{#                new Chart(ctx, {#}
+{#                    type: 'bar', data: data#}
+{#                });#}
+{#            });#}
+{#        </script>#}
+{#      </div>#}
+{#      <div class="col-md-4 shadow">#}
+{#        <h2>Profit vs Time</h2>#}
+{#        <canvas id="myChart3" width="500" height="400"></canvas>#}
+{##}
+{#        <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>#}
+{#        <script type="text/javascript" src="{% static 'js/Chart.min.js' %}"></script>#}
+{#        <script type="text/javascript">#}
+{#            $.get('{% url "pos:line_chart_json" %}', function(data) {#}
+{#                var ctx = $("#myChart3").get(0).getContext("2d");#}
+{#                new Chart(ctx, {#}
+{#                    type: 'bar', data: data#}
+{#                });#}
+{#            });#}
+{#        </script>#}
+{#      </div>#}
+{#    </div>#}
 
     <hr>
 
