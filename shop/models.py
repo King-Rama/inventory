@@ -24,9 +24,9 @@ class Category(models.Model):
 
 class Product(models.Model):
     sold_by = models.ForeignKey(User, related_name='saler', on_delete=models.DO_NOTHING, null=True, blank=True)  # for keeping record of who sold the goods
-    stock_updated_by = models.ManyToManyField(User, blank=True, related_name='updater')
+    stock_updated_by = models.ManyToManyField(User, blank=True, related_name='updater', null=True)
     category = models.ForeignKey(Category, related_name='products', on_delete=models.DO_NOTHING)
-    initial_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    initial_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0, null=True)
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
     image = models.ImageField(upload_to='products/%Y/%m/%d/%S', blank=True)
@@ -35,13 +35,13 @@ class Product(models.Model):
     available = models.BooleanField(default=True, help_text='Checked means the stock is ready for sales')  # set True to allow goods to be visible in product for sales
     created = models.DateTimeField(auto_now_add=True)  # stock created
     quantity = models.PositiveSmallIntegerField(null=True, blank=True)
-    vendor = models.CharField(max_length=200, blank=True)
-    vendor_phone = models.CharField(max_length=20, blank=True)
+    vendor = models.CharField(max_length=200, blank=True, null=True)
+    vendor_phone = models.CharField(max_length=20, blank=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)
-    vendor_email = models.EmailField(blank=True)
-    vendor_website = models.URLField(blank=True)
-    stock_cost = models.DecimalField(max_length=9, decimal_places=2, max_digits=11, blank=True)
-    transport_fee = models.DecimalField(max_length=9, decimal_places=2, max_digits=11, blank=True)
+    vendor_email = models.EmailField(blank=True, null=True)
+    vendor_website = models.URLField(blank=True, null=True)
+    stock_cost = models.DecimalField(max_length=9, decimal_places=2, max_digits=11, blank=True, null=True)
+    transport_fee = models.DecimalField(max_length=9, decimal_places=2, max_digits=11, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
