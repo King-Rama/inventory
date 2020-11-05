@@ -26,28 +26,37 @@ from .models import Expenses, Revenue, Salary
 
 @method_decorator([login_required, manager_required], name='dispatch')
 class LineChartJSONView(BaseLineChartView):
-    last_month = datetime.now() - timedelta(days=30)
-    data_1 = Expenses.objects.filter(created__gt=last_month).extra(select={'day': 'date(created)'}).values(
-        'day').annotate(sum=Sum('amount'))
-    data_2 = Revenue.objects.filter(created__gt=last_month).extra(select={'day': 'date(created)'}).values(
-        'day').annotate(sum=Sum('amount'))
+    # last_month = datetime.now() - timedelta(days=30)
+    # data_1 = Expenses.objects.filter(created__gt=last_month).extra(select={'day': 'date(created)'}).values(
+    #     'day').annotate(sum=Sum('amount'))
+    # data_2 = Revenue.objects.filter(created__gt=last_month).extra(select={'day': 'date(created)'}).values(
+    #     'day').annotate(sum=Sum('amount'))
 
     def get_labels(self):
         """Return 7 labels for the x-axis."""
+        revenue = Revenue.objects.all()
+        # if revenue < [range(7)] or revenue is None:
+        #     revenue = [range(len(revenue) - len(range(7)))]
         days = []
-        for day in range(1, 31, 1):
-            days.append(f'day{day}')
+        for sale in revenue[:7]:
+            days.append(sale.created.day)
         return [days]
 
     def get_providers(self):
         """Return names of datasets."""
-        return ["Expenses", "Revenue"]
+        return ["Sales", "Revenue", "Expenses"]
 
     def get_data(self):
         """Return 3 datasets to plot."""
+        sales = OrderItem.objects.all()
+        revenue = [x.amount for x in Revenue.objects.all()]
+        expenses = [x.amount for x in Expenses.objects.all()]
+        # if sales is None or sales < [range(7)]:
+        #     sales = [range(len(sales) - len(range(7)))]
 
-        return [LineChartJSONView.data_1,
-                LineChartJSONView.data_2]
+        return [sales[:7],
+                revenue[:7],
+                expenses[:7]]
 
 
 line_chart = TemplateView.as_view(template_name='manage/index.html')

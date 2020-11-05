@@ -20,44 +20,31 @@ from cart.forms import CartAddProductForm
 
 class LineChartJSONView(BaseLineChartView):
 
-    revenue = Revenue.objects.all().aggregate(Sum('amount'))
-    expenses = Expenses.objects.all().aggregate(Sum('amount'))
-    gross_revenue = OrderItem.objects.all()
-    gross_expenses = Salary.objects.all().aggregate(Sum('income'))
-    if gross_expenses['income__sum'] is None:
-        gross_expenses['income__sum'] = 0
-    if gross_revenue is None:
-        gross_revenue = 0
-    if revenue['amount__sum'] is None:
-        revenue['amount__sum'] = 0
-    if expenses['amount__sum'] is None:
-        expenses['amount__sum'] = 0
-    money = 0
-    gross_money = 0
-    for expense in gross_revenue:
-        money = money + (expense.price * expense.quantity)
-        gross_money = money + revenue['amount__sum']
-    expenses = expenses['amount__sum'] + gross_expenses['income__sum']
-    net_profit = gross_money - expenses
-    sales = money
-    list1 = [gross_expenses, gross_money, gross_revenue, [x.price for x in gross_revenue[:4]]]
-    list2 = [gross_money, net_profit, [x.get_cost() for x in gross_revenue[:4]], money]
-    list3 = [(x.get_cost()) for x in gross_revenue[:7]]
     def get_labels(self):
         """Return 7 labels for the x-axis."""
-        return ["January", "February", "March", "April", "May", "June", "July"]
+        revenue = Revenue.objects.all()
+        # if revenue < [range(7)] or revenue is None:
+        #     revenue = [range(len(revenue) - len(range(7)))]
+        days = []
+        for sale in revenue[:7]:
+            days.append(sale.created.day)
+        return [days]
 
     def get_providers(self):
         """Return names of datasets."""
-        return ["Expenses", "Revenue"]
+        return ["Sales", "Revenue", "Expenses"]
 
     def get_data(self):
         """Return 3 datasets to plot."""
+        sales = [x.get_cost() for x in OrderItem.objects.all()]
+        revenue = [x.amount for x in Revenue.objects.all()]
+        expenses = [x.amount for x in Expenses.objects.all()]
+        # if sales is None or sales < [range(7)]:
+        #     sales = [range(len(sales) - len(range(7)))]
 
-        return [LineChartJSONView.list1,
-                LineChartJSONView.list2,
-                #[87000, 21000, 94000, 30000, 90000, 13000, 65000]
-                ]
+        return [sales[:7],
+                revenue[:7],
+                expenses[:7]]
 
 
 line_chart = TemplateView.as_view(template_name='index.html')
