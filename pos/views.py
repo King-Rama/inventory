@@ -32,7 +32,7 @@ class LineChartJSONView(BaseLineChartView):
 
     def get_providers(self):
         """Return names of datasets."""
-        return ["Sales", "Revenue", "Expenses"]
+        return ["Expenses"]
 
     def get_data(self):
         """Return 3 datasets to plot."""
@@ -42,9 +42,7 @@ class LineChartJSONView(BaseLineChartView):
         # if sales is None or sales < [range(7)]:
         #     sales = [range(len(sales) - len(range(7)))]
 
-        return [sales[:7],
-                revenue[:7],
-                expenses[:7]]
+        return [expenses]
 
 
 line_chart = TemplateView.as_view(template_name='index.html')
