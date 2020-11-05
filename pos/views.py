@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
@@ -9,6 +10,7 @@ from django.views.generic import TemplateView
 from chartjs.views.lines import BaseLineChartView
 
 from auths.decorators import pos_required
+from manage.models import Revenue, Expenses, Salary
 from orders.models import OrderItem
 from shop.models import Product, Category
 from cart.forms import CartAddProductForm
@@ -17,6 +19,30 @@ from cart.forms import CartAddProductForm
 
 
 class LineChartJSONView(BaseLineChartView):
+
+    revenue = Revenue.objects.all().aggregate(Sum('amount'))
+    expenses = Expenses.objects.all().aggregate(Sum('amount'))
+    gross_revenue = OrderItem.objects.all()
+    gross_expenses = Salary.objects.all().aggregate(Sum('income'))
+    if gross_expenses['income__sum'] is None:
+        gross_expenses['income__sum'] = 0
+    if gross_revenue is None:
+        gross_revenue = 0
+    if revenue['amount__sum'] is None:
+        revenue['amount__sum'] = 0
+    if expenses['amount__sum'] is None:
+        expenses['amount__sum'] = 0
+    money = 0
+    gross_money = 0
+    for expense in gross_revenue:
+        money = money + (expense.price * expense.quantity)
+        gross_money = money + revenue['amount__sum']
+    expenses = expenses['amount__sum'] + gross_expenses['income__sum']
+    net_profit = gross_money - expenses
+    sales = money
+    list1 = [gross_expenses, gross_money, gross_revenue, [x.price for x in gross_revenue[:4]]]
+    list2 = [gross_money, net_profit, [x.get_cost() for x in gross_revenue[:4]], money]
+    list3 = [(x.get_cost()) for x in gross_revenue[:7]]
     def get_labels(self):
         """Return 7 labels for the x-axis."""
         return ["January", "February", "March", "April", "May", "June", "July"]
@@ -28,8 +54,8 @@ class LineChartJSONView(BaseLineChartView):
     def get_data(self):
         """Return 3 datasets to plot."""
 
-        return [[75000, 44000, 92000, 11000, 44000, 95000, 35000],
-                [41000, 92000, 18000, 3000, 73000, 87000, 92000],
+        return [LineChartJSONView.list1,
+                LineChartJSONView.list2,
                 #[87000, 21000, 94000, 30000, 90000, 13000, 65000]
                 ]
 

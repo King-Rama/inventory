@@ -45,7 +45,7 @@
       <td>{{ res.order.sold_by.get_full_name }}</td>
       <td>{{ res.order.created }}</td>
       <td>{{ res.quantity }}</td>
-      <td>{{ res.price|intcomma }}</td>
+      <td>{{ res.get_cost|intcomma }}</td>
       {% if not user.is_pos %}<td><span></span><span></span></td>{% endif %}
     </tr>
   {% endfor %}

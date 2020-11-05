@@ -44,7 +44,7 @@
       <td>{{ res.order.sold_by }}</td>
       <td>{{ res.order.created|naturalday }}</td>
       <td>{{ res.quantity }}</td>
-      <td>{{ res.price|intcomma }}</td>
+      <td>{{ res.get_cost|intcomma }}</td>
     </tr>
   {% endfor %}
   </tbody>
